@@ -4,3 +4,5 @@ Comparing the efficiency of the following.
 -> Golay Code: extended binary and perfect binary
 
 These are just possible comparisions, we can cut stuff out based on how hard it is to find code 
+
+Extended Golay code currently in the first branch - with randomised input for testing
