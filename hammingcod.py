@@ -69,13 +69,13 @@ def encode(message):
         coded[0][i]=coded[0][i]%2
     return coded
 
-def decode(message):
+def detect_error(message):
     message_array=numpy.array([message]).transpose()
-    print(message_array)
+    #print(message_array)
     message_length=int(len(message)-math.log2(len(message)+1))
 
     A=get_parity_matrix(message_length)
-    print(A, A.shape)
+    #print(A, A.shape)
 
     H=numpy.zeros((A.shape[0], sum(A.shape)))
 
@@ -85,8 +85,20 @@ def decode(message):
                 H[i][j]=int(i==j)
             else:
                 H[i][j]=A[i][j-H.shape[0]]
-    print(H)
+    #print(H)
     syndrome=H.dot(message_array)
+    pos=0
     for i in range(syndrome.shape[0]):
-        syndrome[i][0]=syndrome[i][0]%2
-    return syndrome
+        pos=pos*2+syndrome[i][0]%2
+    return int(pos)
+
+def decode(message):
+    p=detect_error(message)
+    message_length=int(len(message)-math.log2(len(message)+1))
+    if p==0:
+        return (message[message_length-1:])
+    else:
+        message[p-1]=int(not message[p-1])
+        return decode(message)
+
+#print(decode([1, 0, 1, 1, 0, 1, 1]))
