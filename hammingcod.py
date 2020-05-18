@@ -86,8 +86,9 @@ def detect_error(message):
     #print(H)
     syndrome=H.dot(message_array)
     pos=0
-    for i in range(syndrome.shape[0]):
+    for i in range(syndrome.shape[0]-1, -1, -1):
         pos=pos*2+syndrome[i][0]%2
+    print(pos, syndrome)
     return int(pos)
 
 def decode(message):
@@ -99,3 +100,8 @@ def decode(message):
     else:
         message[p-1]=int(not message[p-1])
         return decode(message)
+
+a=[1,1,1,1]
+v=encode(a)
+v[0]=0
+print(decode(v))
