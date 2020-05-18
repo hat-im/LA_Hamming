@@ -65,9 +65,7 @@ def encode(message):
     #print(G)
 
     coded=msg.dot(G)
-    for i in range(coded.shape[1]):
-        coded[0][i]=coded[0][i]%2
-    return coded
+    return [int(coded[0][i]%2) for i in range(coded.shape[1])]
 
 def detect_error(message):
     message_array=numpy.array([message]).transpose()
@@ -95,10 +93,9 @@ def detect_error(message):
 def decode(message):
     p=detect_error(message)
     message_length=int(len(message)-math.log2(len(message)+1))
+    print(message_length)
     if p==0:
-        return (message[message_length-1:])
+        return (message[len(message)-message_length:])
     else:
         message[p-1]=int(not message[p-1])
         return decode(message)
-
-#print(decode([1, 0, 1, 1, 0, 1, 1]))
