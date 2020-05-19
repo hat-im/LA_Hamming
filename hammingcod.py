@@ -86,5 +86,6 @@ def decode(message):
     pos=0
     for i in range(syndrome.shape[0]-1, -1, -1):
         pos=pos*2+syndrome[i][0]
-    message[pos-1]=int(not message[pos])
+    pos=int(pos)
+    message[pos-1]=int(not message[pos-1])
     return pos
