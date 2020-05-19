@@ -1,100 +1,92 @@
-# Communication Networks
-# Implementation of (24,12) Golay Code 
-# Karen Galstyan (A09130138)
-
-#!/usr/bin/python
 import numpy as np
 
-def createnoise(l,num):
-	temp=np.random.randint(24, size=num)
-	#Show error positions
-	print ("Error poisitoins at "+str(temp)) 
-	l=np.copy(v)
-	l[temp]+=1
-	l[temp]=np.remainder(l[temp],2)
-	return l
-
-#Input is Randomized can be added manually for testing
-i=np.random.randint(2, size=12)
+G = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1],[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1],[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0],[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1],[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1],[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1],[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0],[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
 
-
-a = np.array([1,1,0,1,1,1,0,0,0,1,0])
-j= np.array([1,1,1,1,1,1,1,1,1,1,1,0])
-
-I=np.identity(12)
-Bc=list()
-Bc.append(np.append(a,1))
-
-for x in range(1,11):
-	b=np.roll(a,-x)
-	b=np.append(b,1)
-	Bc.append(b)
-Bc.append(j)
-Bc=np.array(Bc)
+B = np.array([[1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1],[1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1],[0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1],[1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1],[1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1],[1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1],[0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1],[0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1],[0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1],[1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],[0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1],[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]])
 
 
-G=np.hstack((Bc,I))
-H=np.hstack((I,Bc))
-
-v=np.dot(i,G)
-v=np.remainder(v,2)
-print("Encoded message"+str(v)) 
-#Enconding done 
-
-#Create channel noise in random positions
-#Number of errors is currently hardcoded to 3. Can be changed for further tests
-res=createnoise(v,3)
-print("Result after noise "+str(res))
+H = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],[1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1],[1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1],[0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1],[1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1],[1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1],[1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1],[0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1],[0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1],[0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1],[1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],[0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1],[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]])
 
 
-def detecterror(input):
-	s=np.dot(H,input)
-	s=np.remainder(s,2)
+def encode_Golay(info):
+    global G
 
-	w=np.sum(s)
-	#print w
-	
-	if w<=3:
-		return np.append(s,np.zeros(12))
-	for i in range(12):
-		tmp=np.remainder(np.add(Bc[i],s),2)
-		w2=np.sum(tmp)
-		#print w2
-		if w2<=2:
-			ei=np.zeros(12)
-			ei[i]=1
-			return np.append(tmp,ei)
+    if type(info) == list:
+        while len(info)<12:
+            info=[0]+info
+        return list(np.array(info).dot(G)% 2)
+        
 
-	s2=np.remainder(np.dot(s,Bc),2)
-	w3=np.sum(s2)
-	if w3<=3:
-		return np.append(np.zeros(12),s2)
-	for i in range(12):
-		tmp=np.remainder(np.add(Bc[i],s2),2)
-		w2=np.sum(tmp)
-		#print w2
-		if w2<=2:
-			ei=np.zeros(12)
-			ei[i]=1
-			return np.append(ei,tmp)
-	return "Undetectable Error!"	
-
-u=detecterror(res)
-print("Error vector= "+str(u))
-
-def decode():
-	input=np.remainder(np.add(u,res),2)
-	result=np.remainder(np.dot(input,H.T),2)
-	if np.sum(result)==0:
-		return input 
-
-if u is not "Undetectable Error!":
-	print ("Codeword after Decoding ="+str(decode()))
-	#Double Checking
-	print(np.sum(v-decode()))
+def find_weight(word):
+    """
+    input is bit vector
+    output is Hamming weight
+    """
+    i = 0
+    for letter in word:
+        if letter != 0:
+            i += 1
+    return i
 
 
+def decode_Golay(word):
+    if type(word) == str:
+        word = [int(i) for i in word]
 
+    if find_weight(word) % 2 == 0:
+        word += [1]
+    else:
+        word += [0]
 
+    c = decode_extended_Golay(word)
+    return c
 
+def decode_extended_Golay(word):
+    if type(word) == str:
+        word = [int(i) for i in word]
+
+    global B
+    global H
+
+    s = list(word @ H % 2)
+    if find_weight(s) <= 3:
+        u = s + [0]*12
+        # print(''.join(str(x) for x in u))
+        sent_word = []
+        for k in range(24):
+            sent_word.append((word[k] + u[k]) % 2)
+        return sent_word[:12]
+    for i, row in enumerate(B):
+        if find_weight([sum(z) % 2 for z in zip(s, list(row))]) <= 2:
+            for j, value in enumerate(row):
+                s[j] = (s[j] + value) % 2
+            e_i = [0]*12
+            e_i[i] = 1
+            u = s + e_i
+            # print(''.join(str(x) for x in u))
+            sent_word = []
+            for k in range(24):
+                sent_word.append((word[k] + u[k]) % 2)
+            return sent_word[:12]
+    s = list(s @ B % 2)
+    if find_weight(s) <= 3:
+        u = [0]*12 + s
+        # print(''.join(str(x) for x in u))
+        sent_word = []
+        for k in range(24):
+            sent_word.append((word[k] + u[k]) % 2)
+        return sent_word[:12]
+    for i, row in enumerate(B):
+        if find_weight([sum(z) % 2 for z in zip(s, list(row))]) <= 2:
+            for j, value in enumerate(row):
+                s[j] = (s[j] + value) % 2
+            e_i = [0]*12
+            e_i[i] = 1
+            u = e_i + s
+            # print(''.join(str(x) for x in u))
+            sent_word = []
+            for k in range(24):
+                sent_word.append((word[k] + u[k]) % 2)
+            return sent_word[:12]
+    return 'request retransmission'
